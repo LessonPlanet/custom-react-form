@@ -1,8 +1,7 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
-import isEmpty from 'validator/lib/isEmpty';
 import TooltipLink from './tooltip-link';
-import { defaultValidationMessages } from './../utils';
+import validationHOC from '../hoc/validation.js';
 
 class Input extends PureComponent {
   constructor(props) {
@@ -15,7 +14,7 @@ class Input extends PureComponent {
       this.props.updateField({
         ...this.props,
         showErrors: false,
-        errors: this.validationErrors(this.props.value),
+        errors: this.props.validationErrors(this.props.value),
         fromInit: true
       });
     }
@@ -26,24 +25,13 @@ class Input extends PureComponent {
     this.props.updateField({
       id: this.props.id,
       value: value,
-      errors: this.validationErrors(value),
+      errors: this.props.validationErrors(value),
       showErrors: true
     });
   }
 
-  validationErrors(value) {
-    let errors = [];
-    if (this.props.customValidator) {
-      errors = this.props.customValidator(this.props, value);
-    }
-    if (this.props.mandatory && isEmpty(String(value))) {
-      errors = [this.props.errorMessages.mandatory || defaultValidationMessages.mandatory];
-    }
-    return errors;
-  }
-
   render() {
-    const { fromInit, errorMessages, label, id, mandatory, errors, updateField, showErrors, tooltip, formGroupClassName, updateOnMount, ...domProps} = this.props;
+    const { label, id, mandatory, errors, showErrors, tooltip, formGroupClassName } = this.props;
     const mandatoryMark = mandatory ? (<span>*</span>): '';
     let formGroupClasses = ['form-group', formGroupClassName];
     formGroupClasses.push(showErrors && errors.length > 0 ? 'has-error' : '');
@@ -55,8 +43,13 @@ class Input extends PureComponent {
           {mandatoryMark}
           {tooltip && <TooltipLink tooltip={tooltip} />}
         </label>
-        <input id={id}
-          {...domProps}
+        <input
+          id={id}
+          type={this.props.type}
+          value={this.props.value}
+          placeholder={this.props.placeholder}
+          className={this.props.className}
+          disabled={this.props.disabled}
           onChange={this.onChange}
         />
         {showErrors && errors.length > 0 && <div className='error'>{errors}</div>}
@@ -76,4 +69,4 @@ Input.propTypes = {
   updateField: PropTypes.func.isRequired
 };
 
-export default Input;
+export default validationHOC(Input);

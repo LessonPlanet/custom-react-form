@@ -1,10 +1,10 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import Select, { Creatable, Async, AsyncCreatable } from 'react-select-plus';
-import 'react-select-plus/dist/react-select-plus.css';
-import isEmpty from 'validator/lib/isEmpty';
 import TooltipLink from './tooltip-link';
-import { defaultValidationMessages } from './../utils';
+import validationHOC from '../hoc/validation.js';
+
+import 'react-select-plus/dist/react-select-plus.css';
 
 class SelectTab extends PureComponent {
   constructor(props) {
@@ -13,49 +13,19 @@ class SelectTab extends PureComponent {
     this.getOptions = this.getOptions.bind(this);
   }
 
-  componentDidUpdate(prevProps, prevState) {
-    // TODO: ADD FOR OTHERS ?
-    if (this.reValidate(prevProps)) {
-      this.props.updateField({
-        id: this.props.id,
-        value: this.props.value,
-        errors: this.validationErrors(this.formattedValue(this.props.value))
-      });
-    }
-  }
-
   componentDidMount() {
     if (this.props.updateOnMount) {
-      const currentValue = (typeof this.props.value == 'string') ? this.props.value : this.formattedValue(this.props.value);
       this.props.updateField({
         ...this.props,
-        errors: this.validationErrors(currentValue),
+        errors: this.props.validationErrors(this.props.value),
         showErrors: false,
         fromInit: true
       });
     }
   }
 
-  reValidate(prevProps) {
-    const { errors, showErrors } = this.props;
-    return (
-      (prevProps.showErrors != showErrors) && showErrors && errors.length == 0
-    )
-  }
-
   keyValueObject(object) {
     return (({ label, value }) => ({ label, value }))(object);
-  }
-
-  formattedValue(val) {
-    let formattedValue = null;
-    if (Array.isArray(val)) {
-      formattedValue = val.map(o => o.value);
-    } else {
-      formattedValue = val ? val.value : '';
-    }
-
-    return formattedValue;
   }
 
   onChange(selectedOption) {
@@ -72,26 +42,9 @@ class SelectTab extends PureComponent {
     this.props.updateField({
       id: this.props.id,
       value: selectedObj,
-      errors: this.validationErrors(selectedValue),
+      errors: this.props.validationErrors(selectedValue),
       showErrors: true
     });
-  }
-
-  validationErrors(value) {
-    let errors = [];
-    if (this.props.customValidator) {
-      errors = this.props.customValidator(this.props, value);
-    }
-
-    if (this.props.mandatory) {
-      const mandatoryError = this.props.errorMessages.mandatory || defaultValidationMessages.mandatory;
-      if (Array.isArray(value)) {
-        if (value.length < 1) { errors.push(mandatoryError); }
-      } else {
-        if (isEmpty(String(value))) { errors.push(mandatoryError); }
-      }
-    }
-     return errors;
   }
 
   get customSelectClass() {
@@ -124,7 +77,9 @@ class SelectTab extends PureComponent {
     if (this.props.async) customProps.loadOptions = this.getOptions;
 
     return (
-      <div className={formGroupClasses.join(' ')}>
+      <div className={formGroupClasses.join(' ')} ref={input => {
+            this.selectInput = input;
+          }}>
         <label htmlFor={id}>
           {label}
           {mandatoryMark}
@@ -141,6 +96,7 @@ class SelectTab extends PureComponent {
           autoload={autoload}
           {...customProps}
         />
+
         {showErrors && errors.length > 0 && <div className='error'>{errors}</div>}
       </div>
     );
@@ -159,4 +115,4 @@ SelectTab.propTypes = {
   updateField: PropTypes.func.isRequired
 };
 
-export default SelectTab;
+export default validationHOC(SelectTab);

@@ -1,7 +1,6 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
-import isEmpty from 'validator/lib/isEmpty';
-import { defaultValidationMessages } from './../utils';
+import validationHOC from '../hoc/validation.js'
 
 class File extends PureComponent {
   constructor(props) {
@@ -15,17 +14,9 @@ class File extends PureComponent {
       id: this.props.id,
       value: field.value,
       files: [field.files[0]],
-      errors: this.validationErrors(field.value, field.files),
+      errors: this.props.validationErrors(field.value),
       showErrors: true
     });
-  }
-
-  validationErrors(value, files) {
-    let errors = [];
-    if (this.props.mandatory && isEmpty(String(value))) {
-      errors.push(this.props.errorMessages.mandatory || defaultValidationMessages.mandatory);
-    }
-    return errors;
   }
 
   get fileName() {
@@ -63,4 +54,4 @@ File.propTypes = {
   updateField: PropTypes.func.isRequired
 };
 
-export default File;
+export default validationHOC(File);

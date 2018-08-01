@@ -1,9 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import isEmpty from 'validator/lib/isEmpty';
-import isURL from 'validator/lib/isURL';
 import TooltipLink from './tooltip-link';
-import { defaultValidationMessages } from './../utils';
+import validationHOC from '../hoc/validation.js';
 
 class Url extends React.PureComponent {
   constructor(props) {
@@ -16,7 +14,7 @@ class Url extends React.PureComponent {
     if (this.props.updateOnMount) {
       this.props.updateField({
         ...this.props,
-        errors: this.validationErrors(this.props.value),
+        errors: this.props.validationErrors(this.props.value),
         showErrors: this.props.showErrors,
         fromInit: true
       });
@@ -28,7 +26,7 @@ class Url extends React.PureComponent {
     this.props.updateField({
       id: this.props.id,
       value: value,
-      errors: this.validationErrors(value),
+      errors: this.props.validationErrors(value),
       showErrors: true
     });
   }
@@ -39,20 +37,8 @@ class Url extends React.PureComponent {
     }
   }
 
-  validationErrors(value) {
-    const currentValue = String(value);
-    let errors = [];
-    if (this.props.mandatory && isEmpty(currentValue)) {
-      errors.push(this.props.errorMessages.mandatory || defaultValidationMessages.mandatory);
-    }
-    if (!isEmpty(currentValue) && !isURL(currentValue)) {
-      errors.push(this.props.errorMessages.invalidURL || defaultValidationMessages.invalidURL);
-    }
-    return errors;
-  }
-
   render() {
-    const { fromInit, label, allowOnlyPaste, mandatory, errors, updateField, showErrors, errorMessages, tooltip, formGroupClassName, updateOnMount, ...domProps } = this.props;
+    const { label, mandatory, errors, showErrors, tooltip, formGroupClassName } = this.props;
     const mandatoryMark = mandatory ? (<span>*</span>): '';
     let formGroupClasses = ['form-group', formGroupClassName];
     formGroupClasses.push(showErrors && errors.length > 0 ? 'has-error' : '');
@@ -66,7 +52,11 @@ class Url extends React.PureComponent {
         </label>
         <input
           id={this.props.id}
-          {...domProps}
+          value={this.props.value}
+          type='url'
+          disabled={this.props.disabled}
+          placeholder={this.props.placeholder}
+          className={this.props.className}
           onChange={this.onChange}
           onKeyPress={this.onKeyPress}
         />
@@ -88,4 +78,4 @@ Url.propTypes = {
   updateField: PropTypes.func.isRequired
 };
 
-export default Url;
+export default validationHOC(Url);

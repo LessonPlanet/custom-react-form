@@ -1,9 +1,8 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
-import isEmpty from 'validator/lib/isEmpty';
 import TooltipLink from './tooltip-link';
 import ReactQuill from 'react-quill';
-import { defaultValidationMessages } from './../utils';
+import validationHOC from '../hoc/validation.js';
 
 import 'react-quill/dist/quill.snow.css';
 
@@ -24,7 +23,7 @@ class Richtext extends PureComponent {
     this.props.updateField({
       id: this.props.id,
       value: (content == '<p><br></p>' ? '' : content).trim(),
-      errors: this.validationErrors(editor.getText().trim()),
+      errors: this.props.validationErrors(editor.getText().trim()),
       showErrors: true
     });
   }
@@ -33,22 +32,11 @@ class Richtext extends PureComponent {
     if (this.props.updateOnMount) {
       this.props.updateField({
         ...this.props,
-        errors: this.validationErrors(this.props.value),
+        errors: this.props.validationErrors(this.props.value),
         showErrors: false,
         fromInit: true
       });
     }
-  }
-
-  validationErrors(value) {
-    let errors = [];
-    if (this.props.customValidator) {
-      errors = this.props.customValidator(this.props, value);
-    }
-    if (this.props.mandatory && isEmpty(String(value))) {
-      errors = [this.props.errorMessages.mandatory || defaultValidationMessages.mandatory];
-    }
-    return errors;
   }
 
   render() {
@@ -91,4 +79,4 @@ Richtext.propTypes = {
   updateField: PropTypes.func.isRequired
 };
 
-export default Richtext;
+export default validationHOC(Richtext);
