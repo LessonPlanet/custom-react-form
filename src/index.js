@@ -9,8 +9,7 @@ import Checkbox from './components/checkbox';
 import Select from './components/select';
 import SelectTab from './components/select-tab';
 import Password from './components/password';
-import Button from './components/button';
-import Url from "./components/url";
+import Url from './components/url';
 import Container from "./components/container";
 import ExternalComponentContainer from "./components/external-component-container";
 import { randomInt } from './utils';
@@ -26,7 +25,6 @@ const FIELD_CLASS = {
   'password': Password,
   'textarea': Textarea,
   'richtext': Richtext,
-  'button': Button,
   'container': Container,
   'external-component': ExternalComponentContainer
 }
@@ -122,14 +120,8 @@ CustomReactForm.propTypes = {
 };
 
 export default CustomReactForm;
-exports.Button = Button;
-exports.Checkbox = Checkbox;
-exports.File = File;
-exports.Input = Input;
-exports.Password = Password;
-exports.Richtext = Richtext;
-exports.Radio = Radio;
-exports.Select = Select;
-exports.SelectTab = SelectTab;
-exports.Textarea = Textarea;
-exports.Url = Url;
+export { File }
+export { Richtext }
+export { Input }
+export { SelectTab }
+export { Url }

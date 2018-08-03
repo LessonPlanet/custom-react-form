@@ -1,3 +1,8 @@
+var plugins = [];
+var BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
+
+//plugins.push(new BundleAnalyzerPlugin());
+
 var path = require('path');
 module.exports = {
   entry: './src/index.js',
@@ -27,7 +32,10 @@ module.exports = {
       }
     ]
   },
+  plugins: plugins,
   externals: {
-    'react': 'commonjs react'
+    'react': 'commonjs react',
+    'react-dom': 'react-dom',
+    'prop-types': 'prop-types'
   }
 };
