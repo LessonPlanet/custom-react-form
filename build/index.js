@@ -408,8 +408,8 @@ var _isURL2 = babelHelpers.interopRequireDefault(_isURL);
 var _utils = __webpack_require__(11);
 
 var validationHOC = function validationHOC(WrappedComponent) {
-  return function (_React$Component) {
-    babelHelpers.inherits(_class, _React$Component);
+  return function (_React$PureComponent) {
+    babelHelpers.inherits(_class, _React$PureComponent);
 
     function _class(props) {
       babelHelpers.classCallCheck(this, _class);
@@ -495,7 +495,7 @@ var validationHOC = function validationHOC(WrappedComponent) {
       }
     }]);
     return _class;
-  }(_react2.default.Component);
+  }(_react2.default.PureComponent);
 };
 
 exports.default = validationHOC;

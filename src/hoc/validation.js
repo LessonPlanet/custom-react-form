@@ -4,7 +4,7 @@ import isURL from 'validator/lib/isURL';
 import { defaultValidationMessages } from './../utils';
 
 const validationHOC = (WrappedComponent) => (
-  class extends React.Component {
+  class extends React.PureComponent {
      constructor(props) {
       super(props);
       this.validationErrors = this.validationErrors.bind(this);

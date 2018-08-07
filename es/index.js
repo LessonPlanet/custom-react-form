@@ -2116,8 +2116,8 @@ module.exports = exports['default'];
 var isURL = unwrapExports(isURL_1);
 
 var validationHOC = function validationHOC(WrappedComponent) {
-  return function (_React$Component) {
-    inherits(_class, _React$Component);
+  return function (_React$PureComponent) {
+    inherits(_class, _React$PureComponent);
 
     function _class(props) {
       classCallCheck(this, _class);
@@ -2203,7 +2203,7 @@ var validationHOC = function validationHOC(WrappedComponent) {
       }
     }]);
     return _class;
-  }(React.Component);
+  }(React.PureComponent);
 };
 
 var Input = function (_PureComponent) {
