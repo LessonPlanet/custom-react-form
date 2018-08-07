@@ -30,10 +30,11 @@ class Richtext extends PureComponent {
 
   componentDidMount() {
     if (this.props.updateOnMount) {
-      this.props.updateField({
-        ...this.props,
-        errors: this.props.validationErrors(this.props.value),
-        showErrors: false,
+      const { validationErrors, updateField, ...props } = this.props;
+      updateField({
+        ...props,
+        errors: validationErrors(props.value),
+        showErrors: props.showErrors,
         fromInit: true
       });
     }

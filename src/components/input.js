@@ -11,17 +11,18 @@ class Input extends PureComponent {
 
   componentDidMount() {
     if (this.props.updateOnMount) {
-      this.props.updateField({
-        ...this.props,
-        showErrors: false,
-        errors: this.props.validationErrors(this.props.value),
+      const { validationErrors, updateField, ...props } = this.props;
+      updateField({
+        ...props,
+        showErrors: props.showErrors,
+        errors: validationErrors(props.value),
         fromInit: true
       });
     }
   }
 
   onChange(event) {
-    const value = event.currentTarget.value;
+    const { value } = event.currentTarget;
     this.props.updateField({
       id: this.props.id,
       value: value,

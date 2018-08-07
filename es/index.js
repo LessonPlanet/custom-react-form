@@ -2154,9 +2154,9 @@ var validationHOC = function validationHOC(WrappedComponent) {
         var _props2 = this.props,
             _props2$errors = _props2.errors,
             errors = _props2$errors === undefined ? [] : _props2$errors,
-            showErrors = _props2.showErrors;
+            revalidate = _props2.revalidate;
 
-        return prevProps.showErrors != showErrors && showErrors && errors.length == 0;
+        return prevProps.revalidate != revalidate && revalidate;
       }
     }, {
       key: 'formattedValue',
@@ -2222,9 +2222,14 @@ var Input = function (_PureComponent) {
     key: 'componentDidMount',
     value: function componentDidMount() {
       if (this.props.updateOnMount) {
-        this.props.updateField(_extends({}, this.props, {
-          showErrors: false,
-          errors: this.props.validationErrors(this.props.value),
+        var _props = this.props,
+            validationErrors = _props.validationErrors,
+            updateField = _props.updateField,
+            props = objectWithoutProperties(_props, ['validationErrors', 'updateField']);
+
+        updateField(_extends({}, props, {
+          showErrors: props.showErrors,
+          errors: validationErrors(props.value),
           fromInit: true
         }));
       }
@@ -2233,6 +2238,7 @@ var Input = function (_PureComponent) {
     key: 'onChange',
     value: function onChange(event) {
       var value = event.currentTarget.value;
+
       this.props.updateField({
         id: this.props.id,
         value: value,
@@ -2243,14 +2249,14 @@ var Input = function (_PureComponent) {
   }, {
     key: 'render',
     value: function render() {
-      var _props = this.props,
-          label = _props.label,
-          id = _props.id,
-          mandatory = _props.mandatory,
-          errors = _props.errors,
-          showErrors = _props.showErrors,
-          tooltip = _props.tooltip,
-          formGroupClassName = _props.formGroupClassName;
+      var _props2 = this.props,
+          label = _props2.label,
+          id = _props2.id,
+          mandatory = _props2.mandatory,
+          errors = _props2.errors,
+          showErrors = _props2.showErrors,
+          tooltip = _props2.tooltip,
+          formGroupClassName = _props2.formGroupClassName;
 
       var mandatoryMark = mandatory ? React.createElement(
         'span',
@@ -22726,9 +22732,14 @@ var Richtext = function (_PureComponent) {
     key: 'componentDidMount',
     value: function componentDidMount() {
       if (this.props.updateOnMount) {
-        this.props.updateField(_extends({}, this.props, {
-          errors: this.props.validationErrors(this.props.value),
-          showErrors: false,
+        var _props = this.props,
+            validationErrors = _props.validationErrors,
+            updateField = _props.updateField,
+            props = objectWithoutProperties(_props, ['validationErrors', 'updateField']);
+
+        updateField(_extends({}, props, {
+          errors: validationErrors(props.value),
+          showErrors: props.showErrors,
           fromInit: true
         }));
       }
@@ -22736,14 +22747,14 @@ var Richtext = function (_PureComponent) {
   }, {
     key: 'render',
     value: function render() {
-      var _props = this.props,
-          label = _props.label,
-          id = _props.id,
-          mandatory = _props.mandatory,
-          errors = _props.errors,
-          showErrors = _props.showErrors,
-          tooltip = _props.tooltip,
-          formGroupClassName = _props.formGroupClassName;
+      var _props2 = this.props,
+          label = _props2.label,
+          id = _props2.id,
+          mandatory = _props2.mandatory,
+          errors = _props2.errors,
+          showErrors = _props2.showErrors,
+          tooltip = _props2.tooltip,
+          formGroupClassName = _props2.formGroupClassName;
 
       var mandatoryMark = mandatory ? React.createElement(
         'span',
@@ -26199,9 +26210,14 @@ var SelectTab = function (_PureComponent) {
     key: 'componentDidMount',
     value: function componentDidMount() {
       if (this.props.updateOnMount) {
-        this.props.updateField(_extends({}, this.props, {
-          errors: this.props.validationErrors(this.props.value),
-          showErrors: false,
+        var _props = this.props,
+            validationErrors = _props.validationErrors,
+            updateField = _props.updateField,
+            props = objectWithoutProperties(_props, ['validationErrors', 'updateField']);
+
+        updateField(_extends({}, props, {
+          errors: validationErrors(props.value),
+          showErrors: props.showErrors,
           fromInit: true
         }));
       }
@@ -26258,18 +26274,18 @@ var SelectTab = function (_PureComponent) {
     value: function render() {
       var _this3 = this;
 
-      var _props = this.props,
-          label = _props.label,
-          id = _props.id,
-          mandatory = _props.mandatory,
-          options = _props.options,
-          multi = _props.multi,
-          value = _props.value,
-          errors = _props.errors,
-          showErrors = _props.showErrors,
-          tooltip = _props.tooltip,
-          formGroupClassName = _props.formGroupClassName,
-          autoload = _props.autoload;
+      var _props2 = this.props,
+          label = _props2.label,
+          id = _props2.id,
+          mandatory = _props2.mandatory,
+          options = _props2.options,
+          multi = _props2.multi,
+          value = _props2.value,
+          errors = _props2.errors,
+          showErrors = _props2.showErrors,
+          tooltip = _props2.tooltip,
+          formGroupClassName = _props2.formGroupClassName,
+          autoload = _props2.autoload;
 
       var mandatoryMark = mandatory ? React.createElement(
         'span',
@@ -26314,9 +26330,9 @@ var SelectTab = function (_PureComponent) {
   }, {
     key: 'customSelectClass',
     get: function get$$1() {
-      var _props2 = this.props,
-          allowNew = _props2.allowNew,
-          async = _props2.async;
+      var _props3 = this.props,
+          allowNew = _props3.allowNew,
+          async = _props3.async;
 
       if (allowNew && async) return AsyncCreatableSelect;
       if (async) return Async;
@@ -26391,9 +26407,14 @@ var Url = function (_React$PureComponent) {
     key: 'componentDidMount',
     value: function componentDidMount() {
       if (this.props.updateOnMount) {
-        this.props.updateField(_extends({}, this.props, {
-          errors: this.props.validationErrors(this.props.value),
-          showErrors: this.props.showErrors,
+        var _props = this.props,
+            validationErrors = _props.validationErrors,
+            updateField = _props.updateField,
+            props = objectWithoutProperties(_props, ['validationErrors', 'updateField']);
+
+        updateField(_extends({}, props, {
+          errors: validationErrors(props.value),
+          showErrors: props.showErrors,
           fromInit: true
         }));
       }
@@ -26419,13 +26440,13 @@ var Url = function (_React$PureComponent) {
   }, {
     key: 'render',
     value: function render() {
-      var _props = this.props,
-          label = _props.label,
-          mandatory = _props.mandatory,
-          errors = _props.errors,
-          showErrors = _props.showErrors,
-          tooltip = _props.tooltip,
-          formGroupClassName = _props.formGroupClassName;
+      var _props2 = this.props,
+          label = _props2.label,
+          mandatory = _props2.mandatory,
+          errors = _props2.errors,
+          showErrors = _props2.showErrors,
+          tooltip = _props2.tooltip,
+          formGroupClassName = _props2.formGroupClassName;
 
       var mandatoryMark = mandatory ? React.createElement(
         'span',

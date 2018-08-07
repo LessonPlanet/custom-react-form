@@ -7,7 +7,7 @@ const validationHOC = (WrappedComponent) => (
   class extends React.Component {
      constructor(props) {
       super(props);
-      this.validationErrors   = this.validationErrors.bind(this);
+      this.validationErrors = this.validationErrors.bind(this);
     }
 
     render() {
@@ -28,9 +28,9 @@ const validationHOC = (WrappedComponent) => (
     }
 
     reValidate(prevProps) {
-      const { errors = [], showErrors } = this.props;
+      const { errors = [], revalidate } = this.props;
       return (
-        (prevProps.showErrors != showErrors) && showErrors && errors.length == 0
+        (prevProps.revalidate != revalidate) && revalidate
       )
     }
 
