@@ -26318,7 +26318,8 @@ var SelectTab = function (_PureComponent) {
           multi: multi,
           placeholder: this.props.placeholder,
           onChange: this.onChange,
-          autoload: autoload
+          autoload: autoload,
+          noResultsText: 'No results found'
         }, customProps)),
         showErrors && errors.length > 0 && React.createElement(
           'div',

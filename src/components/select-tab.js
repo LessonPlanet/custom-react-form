@@ -78,9 +78,7 @@ class SelectTab extends PureComponent {
     if (this.props.async) customProps.loadOptions = this.getOptions;
 
     return (
-      <div className={formGroupClasses.join(' ')} ref={input => {
-            this.selectInput = input;
-          }}>
+      <div className={formGroupClasses.join(' ')} ref={input => { this.selectInput = input }}>
         <label htmlFor={id}>
           {label}
           {mandatoryMark}
@@ -95,6 +93,7 @@ class SelectTab extends PureComponent {
           placeholder={this.props.placeholder}
           onChange={this.onChange}
           autoload={autoload}
+          noResultsText={'No results found'}
           {...customProps}
         />
 
